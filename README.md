@@ -15,3 +15,6 @@
 법을 통해 체계적으로 분석될 수 있다. 사용빈도가 높은 단어파악, 감정분석,
 채팅 트래픽량 분석 등 다양한 방식으로 채팅 데이터를 분석하고 시각화하여
 컷편집과정을 반자동화하는 것이 주목적이다.
+
+## 3주차 발표 PPT
+https://docs.google.com/presentation/d/16qemQTOo6wnlXRdVR_SUVqpXRTFz7guQun72xbkm84I/edit#slide=id.geba4c408dd_2_75
