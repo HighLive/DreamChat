@@ -1,5 +1,5 @@
 # DreamChat
-2021-2nd semester Capstone Design Project
+2021-2nd semester Capstone Design Project - Team Highlive
 
 ## Introduction
 실시간 인터넷 방송의 영상 편집은 크리에이터의 수익창출 시도로 인해 시장
