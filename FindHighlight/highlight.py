@@ -68,7 +68,6 @@ def visualization(x):
     plt.xlabel("sec")
     plt.savefig('graph.png')
 
-
 """실행 코드"""
 # json 파일 열기
 json_path = "../Crawler-Twitch/temp.json"
