@@ -1,68 +1,93 @@
-import sys, json, datetime, pandas as pd
-from collections import Counter 
+import json, datetime
+import pandas as pd
+from collections import Counter
 from matplotlib import pyplot as plt
 
-with open("../Samples/LCK/LCK_Summer_Split.json", encoding='UTF-8') as jFile:
-    dict1 = json.load(jFile)
+def check_frequency(json_data):
+    timeData=[]
+    for chat in json_data:
+        timeData.append(int(json_data[chat]['time']))
 
-# string to time
-timeData=[]
-for m in dict1:
-    timestr = dict1[m]['time']
-    dt = datetime.datetime.strptime(timestr, '[%H:%M:%S]')
-    timeData.append(dt.hour*3600+dt.minute*60+dt.second)
+    freq = Counter(timeData)
+    temp = pd.Series(freq)
+    chat_count = temp.reindex(list(range(1,temp.last_valid_index()+1)), fill_value=0)
 
-# sorting
-freq = Counter(timeData)
-rawData = pd.Series(freq)
-rawData = rawData.reindex(list(range(1,rawData.last_valid_index()+1)), fill_value=0)
+    return chat_count   # 시간대별 채팅 수 반환
 
-# filtering (moving arrange filter)
-win = 7 #입력
-filtData = rawData.rolling(win).mean()
 
-# find highlight
-print('하이라이트 최소 길이(sec):', end=' ')
-TERM = int(input()) # 입력(하이라이트 기간) ex: 10
-print('하이라이트 비율(%):', end=' ')
-PER = int(input()) # 입력(퍼센트) ex: 3
+# START: 하이라이트 측정 (default: 0)
+# WIN: 이동평균 인자 (default: 7)
+def data_preprocessing(chat_count, START=0, WIN=7):
+    # 이동평균 적용(WIN)
+    moving_avg = chat_count.rolling(WIN).mean() 
 
-START = 5*60 # 입력(시작시간)
+    # 앞부분(START) 자르고 채팅 빈도순으로 정렬하기
+    processed_data = moving_avg.drop(list(range(1,START))).sort_values(ascending=[False])
 
-length = rawData.last_valid_index() # 영상길이
-lim = length*PER*0.01 # 하이라이트 길이
+    return moving_avg, processed_data   # 그래프 x축, 전처리된 데이터 반환
 
-hiData = filtData.drop(list(range(1,START))).sort_values(ascending=[False])
-H=[]
-hileng=0
-num=0
-while(hileng<lim):
+
+# TERM: 단편 하이라이트의 최소 길이 (default: 10sec)
+# LENGTH: 전체 하이라이트 길이 (default: 10min)
+def find_highlight(data, TERM=10, LENGTH=60*10):
+    H=[]
     hileng=0
-    peaktime=hiData.index[num]
-    H.append((peaktime-TERM, peaktime))
-    H.sort()
-    try:
-        for i in range(0,len(H)):
-            while (True):
-                if H[i][1] >= H[i+1][0]:
-                    if H[i][1] <= H[i+1][1]:
-                        H[i]=(H[i][0],H[i+1][1])
-                    del H[i+1]
-                else:
-                    break
-    except IndexError:
-        for t in H:
-            hileng += t[1]-t[0]
-    num+=1
+    num=0
+    while(hileng<LENGTH):
+        hileng=0
+        peaktime=data.index[num]
+        H.append((peaktime-TERM, peaktime))
+        H.sort()
+        try:
+            for i in range(0,len(H)):
+                while (True):
+                    if H[i][1] >= H[i+1][0]:
+                        if H[i][1] <= H[i+1][1]:
+                            H[i]=(H[i][0],H[i+1][1])
+                        del H[i+1]
+                    else:
+                        break
+        except IndexError:
+            for t in H:
+                hileng += t[1]-t[0]
+        num+=1
 
-for i, (left, right) in enumerate(H):
-    print('['+str(i+1)+'] ' + str(datetime.timedelta(seconds=int(left))) + ' ~ ' + 
-    str(datetime.timedelta(seconds=int(right))))
+    return H, hileng    # 하이라이트 구간, 전체길이 반환
 
-print("하이라이트 개수: " + str(len(H)))
-print("전체 하이라이트 길이: " + str(hileng))
 
-# visualization
-filtData.plot(figsize=(50,15), grid=True, title="Catch Highlights")
-plt.xlabel("sec")
-plt.savefig('graph.png')
+def print_result(highlight, leng):
+    for i, (left, right) in enumerate(highlight):
+        print('['+str(i+1)+'] ' + str(datetime.timedelta(seconds=int(left))) + ' ~ ' + 
+        str(datetime.timedelta(seconds=int(right))))
+        print("하이라이트 개수: " + str(len(highlight)))
+    print("전체 하이라이트 길이: " + str(leng))
+
+
+def visualization(x):
+    x.plot(figsize=(50,15), grid=True, title="Catch Highlights")
+    plt.xlabel("sec")
+    plt.savefig('graph.png')
+
+
+"""실행 코드"""
+# json 파일 열기
+json_path = "../Crawler-Twitch/temp.json"
+with open(json_path, encoding='UTF-8') as jFile:
+    json_data = json.load(jFile)
+
+# 채팅 데이터에서 각 시간별 채팅 빈도수만 뽑아서 반환
+chat_count = check_frequency(json_data)          
+
+# 데이터를 전처리하여 사용할 채팅 빈도수만 골라 반환 
+## moving_average: 이동평균 데이터
+## 전처리: 이동평균 적용, 앞부분 슬라이싱, 정렬
+moving_avg, preprocessed_data = data_preprocessing(chat_count)
+
+# 실제 하이라이트 구간, 전체 길이 반환
+highlight, leng = find_highlight(preprocessed_data)
+
+# 결과 출력
+print_result(highlight, leng)
+
+# 그래프 저장
+visualization(moving_avg)
