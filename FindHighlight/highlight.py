@@ -33,10 +33,10 @@ def find_highlight(data, TERM=10, LENGTH=60*10):
     H=[]
     hileng=0
     num=0
-    while(hileng<LENGTH):
+    while(hileng<LENGTH and num<len(data)):
         hileng=0
         peaktime=data.index[num]
-        H.append((peaktime-TERM, peaktime))
+        H.append((max(peaktime-TERM,0), peaktime))
         H.sort()
         try:
             for i in range(0,len(H)):
@@ -71,7 +71,7 @@ def visualization(x):
 
 """실행 코드"""
 # json 파일 열기
-json_path = "../Crawler-Twitch/temp.json"
+json_path = "../Data/668788019.json"
 with open(json_path, encoding='UTF-8') as jFile:
     json_data = json.load(jFile)
 
@@ -85,6 +85,7 @@ moving_avg, preprocessed_data = data_preprocessing(chat_count)
 
 # 실제 하이라이트 구간, 전체 길이 반환
 highlight, leng = find_highlight(preprocessed_data)
+print(highlight, leng)
 
 # 결과 출력
 print_result(highlight, leng)
