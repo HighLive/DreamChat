@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <!-- Webpage Title -->
+        <title>DreamChat</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <!-- jQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#reviews-box").html("");
+                showReview();  // 페이지가 로딩될 때마다 호출
+            });
+
+            
+        </script>
+
+        <style type="text/css">
+            * {
+                font-family: "Do Hyeon", sans-serif;
+            }
+            h1,
+            h5 {
+                display: inline;
+            }
+            .info {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .review {
+                text-align: center;
+            }
+            .reviews {
+                margin-top: 100px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <img src="https://user-images.githubusercontent.com/67721382/126046759-2f2edfae-4068-437a-83f3-46fa8774dd10.png"
+                 class="img-fluid" alt="Responsive image">
+            <div class="info">
+                <h1>Dream-Chat</h1>
+                <p>가장 인기있었던 클립을 찾아보세요</p>
+
+                <div class="info">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="여기에 동영상 링크 붙여넣기"/>
+                        <div class="review">
+                            <button onclick="makeReview()" type="button" class="btn btn-primary">하이라이트 추출</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </body>
+
+</html>
