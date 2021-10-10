@@ -12,13 +12,13 @@ def home():
 
 ## POST 요청 API 구현
 @app.route('/video_num', methods = ['POST'])
-def write_review():
+def sendURL():
     
     return 
 
 ## GET 요청 API 구현
 @app.route('/video_num', methods=['GET'])
-def read_reviews():
+def getURL():
     
     return 
     

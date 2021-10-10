@@ -47,12 +47,12 @@
 
     <body>
         <script>
-            function sendURL(url) {
-                var inputValue = document.getElementById("domTextElement").value; 
-                document.getElementById("valueInput").innerHTML = inputValue; 
+            function getURL() {
+                var url = document.getElementById("input").value; 
+                document.write(url);
             }
         </script>
-        
+
         <div class="container">
             <img src="https://user-images.githubusercontent.com/67721382/126046759-2f2edfae-4068-437a-83f3-46fa8774dd10.png"
                  class="img-fluid" alt="Responsive image">
@@ -60,8 +60,8 @@
                 <h1>Dream-Chat</h1>
                 <p>가장 인기있었던 클립을 찾아보세요</p>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="여기에 동영상 링크 붙여넣기"/>
-                    <button onclick="sendURL()" type="button" class="btn btn-primary">하이라이트 추출</button>
+                    <input type="text" class="form-control" placeholder="여기에 동영상 링크 붙여넣기" id ="input">
+                    <button onclick="getURL()" type="button" class="btn btn-primary">하이라이트 추출</button>
                 </div>
             </div>
         </div>
