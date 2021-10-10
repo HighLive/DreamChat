@@ -19,7 +19,7 @@ def write_review():
 ## GET 요청 API 구현
 @app.route('/video_num', methods=['GET'])
 def read_reviews():
-
+    
     return 
     
 if __name__ == '__main__':
