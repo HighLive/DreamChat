@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+
+        <td>
+            <p th:text="'VIDEO ID: ' + ${fileURL}" ></p>
+            <!--
+            <img src="'../static/graph/' + ${video_id} + '.png'"
+                 th:width="1000"
+                 th:src="@{graph/} + ${video_id} + @{.png}"/>
+                 -->
+            <img th:src="${fileURL}" width="1000" height="auto"/>
+        </td>
+
+</div> <!-- /container -->
+</body>
+</html>
