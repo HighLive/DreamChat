@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <form action="/" method="post"> <!-- action과 method 주목! -->
+        <div class="form-group">
+            <label for="url">URL 입력:</label>
+            <input type="text" id="url" name="url" placeholder="url을 입력하시오.">
+        </div>
+        <button type="submit" >하이라이트 추출</button>
+    </form>                     <!-- 등록 버튼을 누르면 입력한 값이 @PostMapping("members/new") 에노테이션이 붙은 메서드를 호출-->
+</div> <!-- /container -->
+</body>
+</html>
