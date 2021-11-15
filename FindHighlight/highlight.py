@@ -71,7 +71,7 @@ def visualization(x):
 
 """실행 코드"""
 # json 파일 열기
-json_path = "../Data/668788019.json"
+json_path = "../Data/1167834289.json"
 with open(json_path, encoding='UTF-8') as jFile:
     json_data = json.load(jFile)
 
@@ -92,3 +92,6 @@ print_result(highlight, leng)
 
 # 그래프 저장
 visualization(moving_avg)
+
+# 이동평균 결과 JSON 반환
+print(type(moving_avg))
