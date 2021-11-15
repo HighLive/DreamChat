@@ -94,4 +94,5 @@ print_result(highlight, leng)
 visualization(moving_avg)
 
 # 이동평균 결과 JSON 반환
-print(type(moving_avg))
+result_json = moving_avg.to_dict()
+with open("./result.json", 'w') as outfile: json.dump(result_json, outfile)
